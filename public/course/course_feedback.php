@@ -3,6 +3,7 @@ include '../../includes/db_connect.php';
 include '../../includes/feedback_questions.php';
 
 $title = 'Course Feedback';
+$pageHeading = 'Course Feedback';
 ob_start();
 
 // Start session
@@ -10,7 +11,7 @@ session_start();
 
 // Check if user_id is set in the session and retrieve it
 if (!isset($_SESSION['user_id'])) {
-    // Redirect to login page if user_id is not set in the sessionc
+    // Redirect to login page if user_id is not set in the session
     header("Location: ../authentication/login.php");
     exit();
 }
@@ -23,7 +24,7 @@ if ($_SESSION['role'] == 'instructor') {
     exit();
 }
 
-$stmt = $conn->prepare('SELECT Courses.course_name, Users.first_name, Users.last_name FROM Courses JOIN Users ON Courses.instructor_id = Users.user_id WHERE Courses.course_id = ?');
+$stmt = $conn->prepare('SELECT Courses.course_name, Courses.season, Courses.year, Users.first_name, Users.last_name FROM Courses JOIN Users ON Courses.instructor_id = Users.user_id WHERE Courses.course_id = ?');
 $stmt->bind_param("i", $course_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -34,42 +35,51 @@ if ($result->num_rows > 0) {
     die('No course found with the given ID.');
 }
 ?>
+<div class="row mb-3">
+    <div class="col-12">
+        <div class="card card-success">
+            <div class="card-header">
+                <h3 class="card-title">You are providing feedback for the course <?php echo htmlspecialchars($course['course_name']); ?> - <?php echo htmlspecialchars($course['season']); ?> <?php echo htmlspecialchars($course['year']); ?> - <?php echo htmlspecialchars($course['first_name'] . ' ' . $course['last_name']); ?></h3>
+            </div>
+            <div class="card-body">
+                <form action="submit_feedback.php" method="post">
+                    <div class="row mb-3">
+                        <input type="hidden" name="course_id" value="<?php echo $course_id; ?>">
+                        <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+                        <?php foreach ($feedback_questions as $index => $question) : ?>
+                            <div class="col-md-6 mb-3">
+                                <label for="rating<?php echo $index + 1; ?>" class="form-label"><?php echo htmlspecialchars($question); ?></label>
+                                <select name="rating<?php echo $index + 1; ?>" id="rating<?php echo $index + 1; ?>" required class="form-control">
+                                    <option value="">Select an option</option>
+                                    <option value="1">1 - Very poor</option>
+                                    <option value="2">2 - Poor</option>
+                                    <option value="3">3 - Average</option>
+                                    <option value="4">4 - Good</option>
+                                    <option value="5">5 - Excellent</option>
+                                </select>
+                            </div>
+                        <?php endforeach; ?>
+                        <div class="col-md-6 mb-3">
+                            <label for="feedback_text">Additional Comments:</label>
+                            <textarea id="feedback_text" name="feedback_text" class="form-control" rows="3"></textarea><br>
+                        </div>
+                        <div class="col-12 mb-3 d-flex justify-content-center   ">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="is_anonymous" name="is_anonymous">
+                                <label class="form-check-label" for="is_anonymous">Check this if you want to submit feedback anonymously.</label>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary">Submit Feedback</button>
 
-<h1>Provide Feedback</h1>
-<form action="../authentication/logout.php" method="post">
-    <button type="submit" class="btn btn-primary">Logout</button>
-</form>
-<p>You are providing feedback for the course <?php echo htmlspecialchars($course['course_name']); ?> taught
-    by <?php echo htmlspecialchars($course['first_name'] . ' ' . $course['last_name']); ?></p>
-<form action="submit_feedback.php" method="post">
-    <input type="hidden" name="course_id" value="<?php echo $course_id; ?>">
-    <label for="is_anonymous">Anonymous:</label>
-    <input type="checkbox" id="is_anonymous" name="is_anonymous"><br>
-    <?php foreach ($feedback_questions as $index => $question): ?>
-        <label for="rating<?php echo $index + 1; ?>"><?php echo htmlspecialchars($question); ?></label>
-        <select name="rating<?php echo $index + 1; ?>" id="rating<?php echo $index + 1; ?>" required>
-            <option value="">Select an option</option>
-            <option value="1">1 - Very poor</option>
-            <option value="2">2 - Poor</option>
-            <option value="3">3 - Average</option>
-            <option value="4">4 - Good</option>
-            <option value="5">5 - Excellent</option>
-        </select><br>
-    <?php endforeach; ?>
-
-    <label for="feedback_text">Additional Comments:</label>
-    <textarea id="feedback_text" name="feedback_text"></textarea><br>
-    <button type="submit" class="btn btn-primary">Submit Feedback</button>
-</form>
-
-<?php
-$action = $_SESSION['role'] === 'student' ? '../student/student_dashboard.php' : '../instructor/instructor_dashboard.php';
-?>
-<form action="<?php echo $action; ?>" method="post">
-    <button type="submit" class="btn btn-primary">Back</button>
-</form>
-
-
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- /.card-header -->
+        </div>
+    </div>
+</div>
 <?php
 $content = ob_get_clean();
 include '../../includes/base.php';

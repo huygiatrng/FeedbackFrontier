@@ -1,10 +1,11 @@
 <?php
 include '../../../includes/db_connect.php';
 $title = 'Edit User';
+$pageHeading = 'Edit User';
 ob_start();
 
 // Start session
-if(session_status() !== PHP_SESSION_ACTIVE) {
+if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
@@ -39,23 +40,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit();
 }
 ?>
+<div class="row mb-3">
+    <div class="col-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Edit User</h3>
+            </div>
+            <div class="card-body">
+                <form action="" method="post">
+                    <div class="row mb-3">
+                        <div class="col-xl-3 col-md-6 mb-3">
+                            <label for="first_name">First Name</label>
+                            <input type="text" id="first_name" name="first_name" value="<?php echo $user['first_name']; ?>" class="form-control">
+                        </div>
+                        <div class="col-xl-3 col-md-6 mb-3">
+                            <label for="last_name">Last Name</label>
+                            <input type="text" id="last_name" name="last_name" value="<?php echo $user['last_name']; ?>" class="form-control">
+                        </div>
+                        <div class="col-xl-3 col-md-6 mb-3">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" value="<?php echo $user['email']; ?>" class="form-control">
+                        </div>
+                        <div class="col-xl-3 col-md-6 d-flex align-items-end mb-3">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                        <div class="col-12">
+                            <?php
+                            if (isset($_SESSION['message'])) {
+                                echo '<p class="text-success">' . $_SESSION['message'] . '.</p>';
+                                unset($_SESSION['message']);
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- /.card-header -->
+        </div>
+    </div>
+</div>
 
-<h1>Edit User</h1>
-
-<form method="POST">
-    <label for="first_name">First Name</label>
-    <input type="text" id="first_name" name="first_name" value="<?php echo $user['first_name']; ?>">
-
-    <label for="last_name">Last Name</label>
-    <input type="text" id="last_name" name="last_name" value="<?php echo $user['last_name']; ?>">
-
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" value="<?php echo $user['email']; ?>">
-
-    <button type="submit">Save Changes</button>
-</form>
-
-<a href="../manage_users.php">Back to Manage Users</a>
 
 <?php
 $content = ob_get_clean();
