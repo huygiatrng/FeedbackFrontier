@@ -1,5 +1,6 @@
 <?php
 include '../../includes/db_connect.php';
+include '../../src/Feedback.php';
 $title = 'Manage Feedback';
 $pageHeading = 'Manage Feedback';
 ob_start();
@@ -15,8 +16,8 @@ if ($_SESSION['role'] !== 'admin') {
     exit();
 }
 
-// Fetch all feedback
-$result = $conn->query("SELECT Feedback.*, Users.first_name, Users.last_name FROM Feedback JOIN Users ON Feedback.user_id = Users.user_id");
+// Fetch all feedback using the static method of Feedback class
+$feedbacks = Feedback::getAllFeedbacks();
 
 ?>
     <div class="row">
@@ -48,31 +49,31 @@ $result = $conn->query("SELECT Feedback.*, Users.first_name, Users.last_name FRO
                         </tr>
                         </thead>
                         <tbody>
-                        <?php while ($row = $result->fetch_assoc()) : ?>
+                        <?php foreach ($feedbacks as $feedback) : ?>
                             <tr>
-                                <td><?php echo $row['feedback_id']; ?></td>
-                                <td><?php echo $row['first_name']; ?></td>
-                                <td><?php echo $row['last_name']; ?></td>
-                                <td><?php echo $row['course_id']; ?></td>
-                                <td><?php echo $row['anonymous'] ? 'Yes' : 'No'; ?></td>
-                                <td><?php echo $row['rating1']; ?></td>
-                                <td><?php echo $row['rating2']; ?></td>
-                                <td><?php echo $row['rating3']; ?></td>
-                                <td><?php echo $row['rating4']; ?></td>
-                                <td><?php echo $row['rating5']; ?></td>
-                                <td><?php echo $row['rating6']; ?></td>
-                                <td><?php echo $row['rating7']; ?></td>
-                                <td><?php echo $row['feedback_text']; ?></td>
-                                <td><?php echo date("F j, Y, g:i a", strtotime($row['createdAt'])); ?></td>
+                                <td><?php echo $feedback->getFeedbackId(); ?></td>
+                                <td><?php echo $feedback->first_name; ?></td>
+                                <td><?php echo $feedback->last_name; ?></td>
+                                <td><?php echo $feedback->getCourseId(); ?></td>
+                                <td><?php echo $feedback->isAnonymous() ? 'Yes' : 'No'; ?></td>
+                                <td><?php echo $feedback->getRating1(); ?></td>
+                                <td><?php echo $feedback->getRating2(); ?></td>
+                                <td><?php echo $feedback->getRating3(); ?></td>
+                                <td><?php echo $feedback->getRating4(); ?></td>
+                                <td><?php echo $feedback->getRating5(); ?></td>
+                                <td><?php echo $feedback->getRating6(); ?></td>
+                                <td><?php echo $feedback->getRating7(); ?></td>
+                                <td><?php echo $feedback->getFeedbackText(); ?></td>
+                                <td><?php echo date("F j, Y, g:i a", strtotime($feedback->getCreatedAt())); ?></td>
                                 <td class="text-nowrap">
-                                    <a href="adjust/edit_feedback.php?feedback_id=<?php echo $row['feedback_id']; ?>"
-                                       class="btn btn-sm btn-warning text-white"> <i class="fas fa-edit    "></i></a> |
-                                    <a href="adjust/delete_feedback.php?feedback_id=<?php echo $row['feedback_id']; ?>"
+                                    <a href="adjust/edit_feedback.php?feedback_id=<?php echo $feedback->getFeedbackId(); ?>"
+                                       class="btn btn-sm btn-warning text-white"> <i class="fas fa-edit"></i></a> |
+                                    <a href="adjust/delete_feedback.php?feedback_id=<?php echo $feedback->getFeedbackId(); ?>"
                                        onclick="deleteAlert(event);" class="btn btn-sm btn-danger"> <i
                                                 class="fa fa-trash" aria-hidden="true"></i></a>
                                 </td>
                             </tr>
-                        <?php endwhile; ?>
+                        <?php endforeach; ?>
                         </tbody>
 
                     </table>

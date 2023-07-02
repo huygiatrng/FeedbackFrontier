@@ -1,6 +1,7 @@
 <?php
 include '../../includes/db_connect.php';
 include '../../includes/feedback_questions.php';
+include '../../src/Course.php';
 
 $title = 'Course Feedbacks';
 $pageHeading = 'Course Feedbacks';
@@ -18,11 +19,10 @@ if (!isset($_SESSION['user_id'])) {
 $role = $_SESSION['role'];
 $course_id = $_GET['course_id'];
 
-$action = $_SESSION['role'] === 'student' ? '../student/student_dashboard.php' : '../instructor/instructor_dashboard.php';
-$is_instructor = isset($_SESSION['role']) && $_SESSION['role'] == 'instructor';
 
+$action = $_SESSION['role'] === 'user' ? '../user/user_dashboard.php' : '../admin/admin_dashboard.php';
 
-$stmt = $conn->prepare('SELECT Courses.course_id,Courses.course_name,Courses.CRN, Courses.season, Courses.year, Users.first_name, Users.last_name FROM Courses INNER JOIN Users ON Users.user_id = Courses.instructor_id WHERE Courses.course_id = ?');
+$stmt = $conn->prepare('SELECT Courses.course_id,Courses.course_subject, Courses.course_number,Courses.CRN, Courses.season, Courses.year, Courses.instructor_name FROM Courses WHERE course_id=?');
 $stmt->bind_param("i", $course_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -30,11 +30,14 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     $course = $result->fetch_assoc();
     $course_id = htmlspecialchars($course['course_id']);
-    $courseName = htmlspecialchars($course['course_name']);
+    $courseSub = htmlspecialchars($course['course_subject']);
+    $courseNum = htmlspecialchars($course['course_number']);
+    $courseInstance = new Course($conn, $course_id); // Create an instance of Course class
+    $courseTitle = $courseInstance->getCourseTitle($courseNum, $courseSub); // Get course title
     $crn = htmlspecialchars($course['CRN']);
     $season = htmlspecialchars($course['season']);
     $year = htmlspecialchars($course['year']);
-    $instructorName = htmlspecialchars($course['first_name'] . ' ' . $course['last_name']);
+    $instructorName = htmlspecialchars($course['instructor_name']);
 } else {
     die('No course found with the given ID.');
 }
@@ -55,7 +58,7 @@ while ($row = $result->fetch_assoc()) {
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">You are viewing feedbacks
-                        for <?php echo "$courseName - $season $year - $instructorName - $crn"; ?></h3>
+                        for <?php echo "$courseTitle - $courseSub $courseNum - $season $year - $instructorName - $crn"; ?></h3>
                 </div>
                 <!-- ./card-header -->
                 <div class="card-body table-responsive">
@@ -66,7 +69,7 @@ while ($row = $result->fetch_assoc()) {
                             <th>From</th>
                             <th>Submitted On</th>
                             <th>Comments</th>
-                            <?php if ($is_instructor) echo "<th>Action</th>"; ?>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -77,17 +80,10 @@ while ($row = $result->fetch_assoc()) {
                                 <td><?php echo $feedback['anonymous'] ? 'Anonymous' : htmlspecialchars($feedback['first_name'] . ' ' . $feedback['last_name']); ?></td>
                                 <td><?php echo date("F j, Y, g:i a", strtotime($feedback['createdAt'])); ?></td>
                                 <td><?php echo htmlspecialchars($feedback['feedback_text']); ?></td>
-                                <?php
-                                if ($is_instructor) {
-                                    echo "<td><button class='btn btn-danger report-btn' data-feedback-id='" . $feedback["feedback_id"] . "' data-course-id='" . $course_id . "'>Report</button></td>";
-                                }
-                                ?>
+                                <td><button class='btn btn-danger report-btn' data-feedback-id='<?php echo $feedback["feedback_id"]; ?>' data-course-id='<?php echo $course_id; ?>'>Report</button></td>
                             </tr>
                             <tr class="expandable-body">
-                                <?php
-                                $colspan = $is_instructor ? 5 : 4;
-                                ?>
-                                <td colspan="<?php echo $colspan; ?>" class="">
+                                <td colspan="<?php echo 5; ?>" class="">
                                     <table class="table">
                                         <thead>
                                         <tr>
@@ -128,7 +124,6 @@ while ($row = $result->fetch_assoc()) {
                     <h4 class="modal-title">Report Feedback</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-
                 <!-- Modal body -->
                 <div class="modal-body">
                     <form id="reportForm" method="POST" action="handle_report.php">
@@ -160,14 +155,7 @@ while ($row = $result->fetch_assoc()) {
         </div>
     </div>
 
-    <?php
-    if ($is_instructor) {
-        echo '<a class="btn btn-secondary" href="../instructor/instructor_dashboard.php">Back to Dashboard</a>';
-    }else{
-        echo '<a class="btn btn-secondary" href="../student/student_dashboard.php">Back to Dashboard</a>';
-    }
-    ?>
-
+    <a class="btn btn-secondary" href="../user/user_dashboard.php">Back to Dashboard</a>
 
 
 

@@ -1,5 +1,6 @@
 <?php
 include '../../../includes/db_connect.php';
+include '../../../src/School.php';
 $title = 'Insert School';
 $pageHeading = 'Insert School';
 ob_start();
@@ -15,14 +16,21 @@ if ($_SESSION['role'] !== 'admin') {
     exit();
 }
 
+// Create a new instance of the School class
+$school = new School(null, $conn);
+
 // If form submitted, insert into the database
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $school_name = $_POST['school_name'];
-    $sql = "INSERT INTO School (school_name) VALUES ('$school_name')";
-    $conn->query($sql);
 
-    header("Location: ../manage_schools.php");
-    exit();
+    try {
+        $school->insertSchool($school_name);
+
+        header("Location: ../manage_schools.php");
+        exit();
+    } catch (\Exception $e) {
+        $error = $e->getMessage();
+    }
 }
 
 ?>
@@ -58,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </div>
 
-<a class="btn btn-secondary" href="../manage_schools.php">Back to Dashboard</a>
+<a class="btn btn-secondary" href="../manage_schools.php">Back to Schools</a>
 
 
 <?php

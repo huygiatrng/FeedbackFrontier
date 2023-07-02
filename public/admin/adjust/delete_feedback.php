@@ -1,5 +1,6 @@
 <?php
 include '../../../includes/db_connect.php';
+include '../../../src/Feedback.php';
 
 // Start session
 if(session_status() !== PHP_SESSION_ACTIVE) {
@@ -13,20 +14,10 @@ if ($_SESSION['role'] !== 'admin') {
 }
 
 if(isset($_GET['feedback_id'])){
-    $feedback_id = $_GET['feedback_id'];
-
-    // Prepare the statements
-    $stmt1 = $conn->prepare("DELETE FROM report WHERE feedback_id = ?");
-    $stmt2 = $conn->prepare("DELETE FROM feedback WHERE feedback_id = ?");
-
-    // Bind parameters
-    $stmt1->bind_param("i", $feedback_id);
-    $stmt2->bind_param("i", $feedback_id);
-
-    // Execute queries
-    if($stmt1->execute() && $stmt2->execute()){
+    try {
+        Feedback::deleteFeedback($_GET['feedback_id']);
         echo 1; // Successfully deleted
-    }else{
+    } catch (\Exception $e) {
         echo 0; // Deletion unsuccessful
     }
 }else{

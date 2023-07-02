@@ -48,7 +48,7 @@ $stmt->bind_param("issiiiiiiis", $course_id, $first_name, $last_name, $rating1, 
 
 // Execute the SQL query
 if ($stmt->execute()) {
-    header("Location: public/student/student_dashboard.php");
+    header("Location: public/user/user_dashboard.php");
 } else {
     echo "Error: " . $stmt->error;
 }

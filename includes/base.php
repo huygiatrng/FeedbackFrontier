@@ -39,9 +39,9 @@ $isAdmin = false;
 
 if (isset($_SESSION['role'])) {
     switch ($_SESSION['role']) {
-        case 'student':
-            $homeURL = "/" . $projectName . "public/student/student_dashboard.php";
-            $profileURL = "/" . $projectName . "public/student/profile/student_profile_update.php";
+        case 'user':
+            $homeURL = "/" . $projectName . "public/user/user_dashboard.php";
+            $profileURL = "/" . $projectName . "public/user/profile/user_profile_update.php";
             break;
         case 'instructor':
             $homeURL = "/" . $projectName . "public/instructor/instructor_dashboard.php";

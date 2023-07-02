@@ -1,6 +1,9 @@
 <?php
 include '../../includes/db_connect.php';
 
+// Include the Feedback class file
+require_once '../../src/Feedback.php';
+
 // Start session
 session_start();
 
@@ -24,18 +27,12 @@ $rating7 = $_POST['rating7'];
 $feedback_text = $_POST['feedback_text'];
 $is_anonymous = isset($_POST['is_anonymous']) ? 1 : 0; // convert boolean to int (1 or 0)
 
-// Prepare SQL query to insert feedback
-$stmt = $conn->prepare('INSERT INTO Feedback (course_id, user_id, anonymous, rating1, rating2, rating3, rating4, rating5, rating6, rating7, feedback_text) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-$stmt->bind_param("iiiiiiiiiss", $course_id, $user_id, $is_anonymous, $rating1, $rating2, $rating3, $rating4, $rating5, $rating6, $rating7, $feedback_text);
-
-
-// Execute the SQL query
-if ($stmt->execute()) {
-    header("Location: ../student/student_dashboard.php");
-} else {
-    echo "Error: " . $stmt->error;
+try {
+    Feedback::createFeedback($course_id, $user_id, $is_anonymous, $rating1, $rating2, $rating3, $rating4, $rating5, $rating6, $rating7, $feedback_text);
+    header("Location: ../user/user_dashboard.php");
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
 }
 
-$stmt->close();
 $conn->close();
 ?>

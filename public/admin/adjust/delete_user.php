@@ -1,5 +1,9 @@
 <?php
-include '../../../includes/db_connect.php';
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+require_once '../../../includes/db_connect.php';
+require_once '../../../src/User.php';
 
 // Start session
 if(session_status() !== PHP_SESSION_ACTIVE) {
@@ -16,14 +20,16 @@ if ($_SESSION['role'] !== 'admin') {
 if (isset($_GET['user_id'])) {
     $user_id = $_GET['user_id'];
 
-    // Delete reports associated with the user
-    $conn->query("DELETE FROM report WHERE user_id = '$user_id'");
+    try {
+        $user = User::getUserById($user_id);
+        $user->deleteUser();
 
-    // Delete the user
-    $conn->query("DELETE FROM Users WHERE user_id = '$user_id'");
+        // Redirect back to manage users
+        header("Location: ../manage_users.php");
+        exit();
+    } catch (Exception $e) {
+        // Handle exception (e.g., display error message)
+        echo $e->getMessage();
+    }
 }
-
-// Redirect back to manage users
-header("Location: ../manage_users.php");
-exit();
 ?>
