@@ -1,5 +1,7 @@
 <?php
 include '../../../includes/db_connect.php';
+include '../../../src/School.php';  // Include School class
+
 $title = 'Edit School';
 $pageHeading = 'Edit School';
 ob_start();
@@ -16,15 +18,16 @@ if ($_SESSION['role'] !== 'admin') {
 }
 
 $school_id = $_GET['school_id'];
-$result = $conn->query("SELECT * FROM School WHERE school_id = $school_id");
 
-$row = $result->fetch_assoc();
+// Fetch school from DB using static method of School class
+$school = School::getSchoolById($school_id, $conn);
 
 // If form submitted, update the database
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $school_name = $_POST['school_name'];
-    $sql = "UPDATE School SET school_name = '$school_name' WHERE school_id = $school_id";
-    $conn->query($sql);
+
+    // Call the method to change the school name
+    $school->changeName($school_name);
 
     header("Location: ../manage_schools.php");
     exit();
@@ -42,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="row mb-3">
                         <div class="col-lg-4 col-md-6 mb-3">
                             <label for="school_name" class="form-label">School Name:</label>
-                            <input type="text" name="school_name" value="<?php echo $row['school_name']; ?>" required class="form-control">
+                            <input type="text" name="school_name" value="<?php echo $school->getName(); ?>" required class="form-control">
                         </div>
 
                         <div class="col-xl-3 col-md-6 d-flex align-items-end mb-3">
@@ -62,6 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 </div>
+
+<a class="btn btn-secondary" href="../manage_schools.php">Back to Schools</a>
 
 
 <?php

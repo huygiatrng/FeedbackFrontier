@@ -1,8 +1,9 @@
 <?php
 include '../../../includes/db_connect.php';
+include '../../../src/School.php';
 
 // Start session
-if(session_status() !== PHP_SESSION_ACTIVE) {
+if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
@@ -14,8 +15,15 @@ if ($_SESSION['role'] !== 'admin') {
 
 $school_id = $_GET['school_id'];
 
-$conn->query("DELETE FROM School WHERE school_id = $school_id");
+try {
+    School::deleteSchoolById($school_id, $conn);
 
-header("Location: ../manage_schools.php");
-exit();
+    header("Location: ../manage_schools.php");
+    exit();
+} catch (\Exception $e) {
+    // Handle the exception, e.g., log the error or display an error message to the user
+    echo "An error occurred: " . $e->getMessage();
+    exit();
+}
+
 ?>

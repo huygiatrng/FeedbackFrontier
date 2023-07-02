@@ -1,7 +1,10 @@
 <?php
 include '../../includes/db_connect.php';
+include '../../src/School.php';
+
 $title = 'Manage Schools';
 $pageHeading = 'Manage Schools';
+
 ob_start();
 
 // Start session
@@ -15,9 +18,8 @@ if ($_SESSION['role'] !== 'admin') {
     exit();
 }
 
-// Fetch all schools
-$result = $conn->query("SELECT * FROM School");
-
+// Fetch all schools using the School class
+$schools = School::getAllSchools($conn);
 ?>
     <div class="row">
         <div class="col-12">
@@ -39,22 +41,21 @@ $result = $conn->query("SELECT * FROM School");
                         </tr>
                         </thead>
                         <tbody>
-                        <?php while ($row = $result->fetch_assoc()) : ?>
+                        <?php foreach ($schools as $school) : ?>
                             <tr>
-                                <td><?php echo $row['school_id']; ?></td>
-                                <td><?php echo $row['school_name']; ?></td>
-                                <td><?php echo date("F j, Y, g:i a", strtotime($row['createdAt'])); ?></td>
+                                <td><?php echo $school->getID(); ?></td>
+                                <td><?php echo $school->getName(); ?></td>
+                                <td><?php echo date("F j, Y, g:i a", strtotime($school->getCreatedAt())); ?></td>
                                 <td class="text-nowrap">
-                                    <a href="adjust/edit_school.php?school_id=<?php echo $row['school_id']; ?>"
+                                    <a href="adjust/edit_school.php?school_id=<?php echo $school->getID(); ?>"
                                        class="btn btn-sm btn-warning text-white"> <i class="fas fa-edit    "></i></a> |
-                                    <a href="adjust/delete_school.php?school_id=<?php echo $row['school_id']; ?>"
+                                    <a href="adjust/delete_school.php?school_id=<?php echo $school->getID(); ?>"
                                        onclick="deleteAlert(event);" class="btn btn-sm btn-danger"> <i
                                                 class="fa fa-trash" aria-hidden="true"></i></a>
                                 </td>
                             </tr>
-                        <?php endwhile; ?>
+                        <?php endforeach; ?>
                         </tbody>
-
                     </table>
                 </div>
                 <!-- /.card-body -->

@@ -27,10 +27,8 @@ if (isset($_POST['submit'])) {
             // Redirect user to their respective dashboard
             if ($user['role'] == 'admin') {
                 header("Location: ../admin/admin_dashboard.php");
-            } elseif ($user['role'] == 'student') {
-                header("Location: ../student/student_dashboard.php");
-            } elseif ($user['role'] == 'instructor') {
-                header("Location: ../instructor/instructor_dashboard.php");
+            } elseif ($user['role'] == 'user') {
+                header("Location: ../user/user_dashboard.php");
             }
         } else {
             $error = "Invalid password.";

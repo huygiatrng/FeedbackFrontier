@@ -52,14 +52,7 @@ ob_start();
                         <h2 class="fw-bold mb-5">Sign up now</h2>
                         <form action="submit_registration.php"  method="post">
                             <div class="row">
-                                <div class="form-group mb-3 col-md-6">
-                                    <label for="role">I am a:</label>
-                                    <select name="role" id="role" class="form-control" required>
-                                        <option value="">Select a Role</option>
-                                        <option value="student">Student</option>
-                                        <option value="instructor">Instructor</option>
-                                    </select>
-                                </div>
+                                <input type="hidden" id="role" name="role" value="user">
                                 <div class="form-group mb-3 col-md-6">
                                     <label for="email">Email:</label>
                                     <input type="email" id="email" name="email" class="form-control" required>

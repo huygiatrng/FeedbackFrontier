@@ -1,5 +1,8 @@
 <?php
 include '../../includes/db_connect.php';
+require_once '../../src/Report.php';
+include '../../includes/feedback_questions.php';
+
 $title = 'Manage Reports';
 $pageHeading = 'Manage Reports';
 ob_start();
@@ -15,8 +18,15 @@ if ($_SESSION['role'] !== 'admin') {
     exit();
 }
 
-// Fetch all reports
-$result = $conn->query("SELECT Report.*, Feedback.*, Users.first_name AS reported_first_name, Users.last_name AS reported_last_name, Reporter.first_name AS reporter_first_name, Reporter.last_name AS reporter_last_name FROM Report JOIN Feedback ON Report.feedback_id = Feedback.feedback_id JOIN Users ON Feedback.user_id = Users.user_id JOIN Users AS Reporter ON Report.user_id = Reporter.user_id");
+try {
+    // Create a new report instance
+    $report = new Report($conn);
+    // Fetch all reports
+    $reports = $report->getAllReportsWithUserDetails();
+} catch (Exception $e) {
+    // Add error handling as necessary
+    die('Error fetching reports: ' . $e->getMessage());
+}
 
 ?>
 <div class="row">
@@ -41,7 +51,7 @@ $result = $conn->query("SELECT Report.*, Feedback.*, Users.first_name AS reporte
                     </tr>
                     </thead>
                     <tbody>
-                    <?php while ($row = $result->fetch_assoc()) : ?>
+                    <?php foreach ($reports as $row) : ?>
                         <tr data-widget="expandable-table" aria-expanded="false">
                             <td><?php echo $row['report_id']; ?></td>
                             <td><?php echo $row['reported_first_name'] . ' ' . $row['reported_last_name']; ?></td>
@@ -69,10 +79,12 @@ $result = $conn->query("SELECT Report.*, Feedback.*, Users.first_name AS reporte
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <?php for ($i = 1; $i <= 7; $i++) {
-                                        $ratingIndex = 'rating' . $i;
-                                        echo '<tr><td>Question ' . $i . '</td><td>' . $row[$ratingIndex] . '</td></tr>';
-                                    } ?>
+                                    <?php foreach ($feedback_questions as $index => $question) : ?>
+                                        <tr>
+                                            <td><?php echo $question; ?></td>
+                                            <td><?php echo $row['rating' . ($index + 1)]; ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                     <tr>
                                         <th>Free form text</th>
                                         <td><?php echo $row['feedback_text']; ?></td>
@@ -81,7 +93,7 @@ $result = $conn->query("SELECT Report.*, Feedback.*, Users.first_name AS reporte
                                 </table>
                             </td>
                         </tr>
-                    <?php endwhile; ?>
+                    <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>

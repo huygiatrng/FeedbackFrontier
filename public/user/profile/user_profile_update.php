@@ -1,7 +1,7 @@
 <?php
 include '../../../includes/db_connect.php';
 $title = 'Update Profile';
-$pageHeading = 'Student Profile';
+$pageHeading = 'User Profile';
 ob_start();
 
 
@@ -22,9 +22,9 @@ $stmt->bind_param("is", $user_id, $role);
 $stmt->execute();
 $result = $stmt->get_result();
 if ($result->num_rows > 0) {
-    $student = $result->fetch_assoc();
+    $user= $result->fetch_assoc();
 } else {
-    die('No student found with the given ID.');
+    die('No user found with the given ID.');
 }
 ?>
 <div class="row mb-3">
@@ -37,7 +37,7 @@ if ($result->num_rows > 0) {
                 <form action="update_profile.php" method="post">
                     <div class="row mb-3">
                         <div class="col-xl-3 col-md-6 mb-3">
-                            Email: <input type="email" name="email" value="<?php echo $student['email']; ?>" class="form-control">
+                            Email: <input type="email" name="email" value="<?php echo $user['email']; ?>" class="form-control">
                         </div>
                         <div class="col-xl-3 col-md-6 mb-3">
                             Password: <input type="password" id="password" name="password" oninput="validatePasswordLength()" class="form-control">
@@ -90,14 +90,14 @@ if ($result->num_rows > 0) {
                     </thead>
                     <tbody>
                         <?php
-                        // Fetch feedback for the student
-                        $result = $conn->query("SELECT Feedback.*, Courses.CRN, Courses.course_name FROM Feedback JOIN Courses ON Feedback.course_id = Courses.course_id WHERE Feedback.user_id = $user_id LIMIT 10");
+                        // Fetch feedback for the user
+                        $result = $conn->query("SELECT Feedback.*, Courses.CRN, Courses.course_subject, Courses.course_number FROM Feedback JOIN Courses ON Feedback.course_id = Courses.course_id WHERE Feedback.user_id = $user_id LIMIT 10");
                         while ($row = $result->fetch_assoc()) : ?>
                             <tr>
                                 <td><?php echo $row['createdAt']; ?></td>
                                 <td><?php echo $row['anonymous'] == 1 ? 'Yes' : 'No'; ?></td>
                                 <td><?php echo $row['CRN']; ?></td>
-                                <td><?php echo $row['course_name']; ?></td>
+                                <td><?php echo "{$row['course_subject']} {$row['course_number']}";?></td>
                                 <td><?php echo $row['rating1']; ?></td>
                                 <td><?php echo $row['rating2']; ?></td>
                                 <td><?php echo $row['rating3']; ?></td>

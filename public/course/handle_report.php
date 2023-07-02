@@ -24,7 +24,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['success' => 'Successfully reported!']);
         exit();
     } else {
-        // Handle error
+        // Handle error and display the error message
         echo json_encode(['error' => 'Error: ' . $stmt->error]);
         exit();
     }

@@ -1,5 +1,6 @@
 <?php
-include '../../../includes/db_connect.php';
+require_once '../../../includes/db_connect.php';
+require_once '../../../src/Report.php';
 
 // Start session
 if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -21,36 +22,19 @@ if (isset($_GET['report_id'])) {
     exit();
 }
 
-// Delete report
-$sql = "DELETE FROM Report WHERE report_id = ?";
-
-// Prepare statement
-if ($stmt = $conn->prepare($sql)) {
-    // Bind variables to the prepared statement as parameters
-    $stmt->bind_param("i", $report_id);
-
-    // Attempt to execute the prepared statement
-    if ($stmt->execute()) {
+try {
+    // $pdo is from your db_connect.php
+    $report = new Report($pdo);
+    if ($report->deleteReport($report_id)) {
         // Redirect to manage reports page with success message
         $_SESSION['message'] = "Report deleted successfully!";
         $_SESSION['message_type'] = 'success';
-        header("Location: ../manage_reports.php");
-        exit();
-    } else {
-        // Redirect to manage reports page with error message
-        $_SESSION['message'] = "Error: Could not delete report. Please try again.";
-        $_SESSION['message_type'] = 'danger';
-        header("Location: ../manage_reports.php");
-        exit();
     }
-} else {
-    // Redirect to manage reports page with error message
-    $_SESSION['message'] = "Error: Could not prepare statement. Please try again.";
+} catch (Exception $e) {
+    $_SESSION['message'] = "Error: " . $e->getMessage();
     $_SESSION['message_type'] = 'danger';
-    header("Location: ../manage_reports.php");
-    exit();
 }
 
-$stmt->close();
-$conn->close();
+header("Location: ../manage_reports.php");
+exit();
 ?>

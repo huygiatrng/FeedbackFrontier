@@ -1,5 +1,6 @@
 <?php
 include '../../../includes/db_connect.php';
+include '../../../src/Course.php';
 $title = 'Add Course';
 
 // Start session
@@ -14,14 +15,14 @@ if ($_SESSION['role'] !== 'admin') {
 }
 
 $schools = $conn->query("SELECT * FROM School");
-$instructors = $conn->query("SELECT * FROM Users WHERE role = 'instructor'");
 
 // Process the form when it is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $course_name = htmlspecialchars($_POST['course_name']);
+    $course_subject = htmlspecialchars($_POST['course_subject']);
+    $course_number = htmlspecialchars($_POST['course_number']);
     $CRN = htmlspecialchars($_POST['CRN']);
     $school_id = htmlspecialchars($_POST['school_id']);
-    $instructor_id = htmlspecialchars($_POST['instructor_id']);
+    $instructor_name = htmlspecialchars($_POST['instructor_name']);
     $season = htmlspecialchars($_POST['season']);
     $year = htmlspecialchars($_POST['year']);
 
@@ -32,15 +33,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($duplicate_check->fetch()) {
         $error = "Course with the same CRN already exists in this school for the selected season and year.";
     } else {
-        // Prepare the INSERT statement
-        $stmt = $conn->prepare("INSERT INTO Courses (course_name, CRN, school_id, instructor_id, season, year) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssiiis", $course_name, $CRN, $school_id, $instructor_id, $season, $year);
-
-        // Execute the statement
-        if ($stmt->execute()) {
+        // Add the new course
+        try {
+            $new_course = Course::addCourse($course_subject, $course_number, $CRN, $school_id, $instructor_name, $season, $year);
             header("Location: ../manage_courses.php");
-        } else {
-            $error = "Error: " . $stmt->error;
+        } catch (Exception $e) {
+            $error = $e->getMessage();
         }
     }
 }
@@ -59,8 +57,12 @@ ob_start();
                 <form action="" method="post">
                     <div class="row mb-3">
                         <div class="col-lg-4 col-md-6 mb-3">
-                            <label for="course_name" class="form-label">Course Name:</label>
-                            <input type="text" id="course_name" name="course_name" required class="form-control">
+                            <label for="course_subject" class="form-label">Course Subject:</label>
+                            <input type="text" id="course_subject" name="course_subject" required class="form-control">
+                        </div>
+                        <div class="col-lg-4 col-md-6 mb-3">
+                            <label for="course_number" class="form-label">Course Number:</label>
+                            <input type="text" id="course_number" name="course_number" required  class="form-control">
                         </div>
                         <div class="col-lg-4 col-md-6 mb-3">
                             <label for="CRN" class="form-label">CRN:</label>
@@ -75,12 +77,8 @@ ob_start();
                             </select>
                         </div>
                         <div class="col-lg-4 col-md-6 mb-3">
-                            <label for="instructor_id" class="form-label">Instructor:</label><br>
-                            <select id="instructor_id" name="instructor_id" required class="form-control">
-                                <?php while ($instructor = $instructors->fetch_assoc()) : ?>
-                                    <option value="<?php echo $instructor['user_id']; ?>"><?php echo $instructor['first_name'] . ' ' . $instructor['last_name']; ?></option>
-                                <?php endwhile; ?>
-                            </select>
+                            <label for="instructor_name" class="form-label">Instructor Name:</label>
+                            <input type="text" id="instructor_name" name="instructor_name" required class="form-control">
                         </div>
                         <div class="col-lg-4 col-md-6 mb-3">
                             <label for="season" class="form-label">Season:</label>
@@ -118,40 +116,6 @@ ob_start();
 </div>
 
 <a class="btn btn-secondary" href="../manage_courses.php">Back to Dashboard</a>
-
-
-<script>
-    $(document).ready(function() {
-        // Function to fetch instructors
-        function fetchInstructors(school_id) {
-            $.ajax({
-                url: 'fetch_instructors.php',
-                type: 'post',
-                data: {
-                    school_id: school_id
-                },
-                dataType: 'json',
-                success: function(response) {
-                    var len = response.length;
-                    $("#instructor_id").empty();
-                    for (var i = 0; i < len; i++) {
-                        var id = response[i]['user_id'];
-                        var name = response[i]['first_name'] + ' ' + response[i]['last_name'];
-                        $("#instructor_id").append("<option value='" + id + "'>" + name + "</option>");
-                    }
-                }
-            });
-        }
-
-        // Fetch instructors when the page loads
-        fetchInstructors($("#school_id").val());
-
-        // Fetch instructors when the selected school changes
-        $('#school_id').change(function() {
-            fetchInstructors($(this).val());
-        });
-    });
-</script>
 
 <?php
 $content = ob_get_clean();

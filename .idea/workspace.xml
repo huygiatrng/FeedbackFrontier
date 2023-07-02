@@ -5,47 +5,51 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49c806df-6697-4ebf-8429-14b7dd1e115c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/public/admin/adjust/add_course.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/admin/adjust/delete_course.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/admin/adjust/delete_feedback.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/admin/adjust/delete_school.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/admin/adjust/edit_course.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/admin/adjust/edit_feedback.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/admin/adjust/edit_school.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/admin/adjust/fetch_instructors.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/admin/adjust/insert_school.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/admin/manage_reports.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/admin/report_decide/delete_feedback_report.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/admin/report_decide/delete_report.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/admin/view/delete_feedback_of_course.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/admin/view/view_feedback_of_course.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/course/handle_report.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/instructor/profile/instructor_profile_update.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/instructor/profile/update_profile.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/student/profile/student_profile_update.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/student/profile/update_profile.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Course.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Feedback.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Report.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/School.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/includes/base.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/base.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/db_connect.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/db_connect.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/admin/adjust/add_course.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/adjust/add_course.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/admin/adjust/delete_course.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/adjust/delete_course.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/admin/adjust/delete_feedback.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/adjust/delete_feedback.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/admin/adjust/delete_school.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/adjust/delete_school.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/admin/adjust/delete_user.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/adjust/delete_user.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/admin/adjust/edit_course.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/adjust/edit_course.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/admin/adjust/edit_feedback.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/adjust/edit_feedback.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/admin/adjust/edit_school.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/adjust/edit_school.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/admin/adjust/edit_user.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/adjust/edit_user.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/admin/admin_dashboard.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/admin_dashboard.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/admin/adjust/fetch_instructors.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/admin/adjust/insert_school.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/adjust/insert_school.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/admin/manage_courses.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/manage_courses.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/admin/manage_feedback.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/manage_feedback.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/admin/manage_reports.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/manage_reports.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/admin/manage_schools.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/manage_schools.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/admin/manage_users.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/manage_users.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/admin/report_decide/delete_feedback_report.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/report_decide/delete_feedback_report.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/admin/report_decide/delete_report.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/report_decide/delete_report.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/admin/view/delete_feedback_of_course.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/view/delete_feedback_of_course.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/admin/view/view_feedback_of_course.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin/view/view_feedback_of_course.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/authentication/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/authentication/login.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/authentication/register.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/authentication/register.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/authentication/submit_feedback.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/authentication/submit_feedback.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/authentication/submit_login.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/authentication/submit_login.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/authentication/submit_registration.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/authentication/submit_registration.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/course/course_feedback.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/course/course_feedback.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/course/course_feedback_view.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/course/handle_report.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/course/handle_report.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/course/search_courses.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/course/search_courses.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/course/submit_feedback.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/course/submit_feedback.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/course/view_feedback.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/course/view_feedback.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/instructor/instructor_dashboard.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/instructor/instructor_dashboard.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/student/student_dashboard.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/student/student_dashboard.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/instructor/instructor_dashboard.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/instructor/profile/instructor_profile_update.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/instructor/profile/update_profile.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/student/profile/student_profile_update.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/user/profile/user_profile_update.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/student/profile/update_profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/user/profile/update_profile.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/student/student_dashboard.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/user/user_dashboard.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,20 +71,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/A- College/CSC4350SoftwareEngineer/course",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;H:/ChatGPT-EasyCode-3.0.1-231.zip&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="JavaScript Debug.index.php">
     <configuration name="admin_dashboard.php" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/course/public/admin/admin_dashboard.php" useBuiltInWebServerPort="true">
       <method v="2" />
@@ -123,10 +132,28 @@
       <workItem from="1688032187515" duration="1880000" />
       <workItem from="1688064273062" duration="86000" />
       <workItem from="1688064664455" duration="2633000" />
+      <workItem from="1688068495027" duration="1495000" />
+      <workItem from="1688145545743" duration="2029000" />
+      <workItem from="1688199863000" duration="19000" />
+      <workItem from="1688202085082" duration="18818000" />
+      <workItem from="1688272501037" duration="6730000" />
+      <workItem from="1688283115500" duration="2091000" />
+      <workItem from="1688327173674" duration="5330000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
