@@ -5,9 +5,12 @@ include '../../src/User.php';
 // Check if form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
+        // Assign the value of 'user' to a variable
+        $role = 'user';
+
         // Insert into Users table
         $stmt = $conn->prepare('INSERT INTO Users (first_name, last_name, email, password, role, school_id) VALUES (?, ?, ?, ?, ?, ?)');
-        $stmt->bind_param('sssssi', $_POST['first_name'], $_POST['last_name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT), 'user', $_POST['school_id']);
+        $stmt->bind_param('sssssi', $_POST['first_name'], $_POST['last_name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT), $role, $_POST['school_id']);
         $stmt->execute();
 
         // Get the id of the last inserted row (i.e., the registered user)
@@ -18,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Set session variables
         $_SESSION['user_id'] = $user_id;
-        $_SESSION['role'] = 'user';
+        $_SESSION['role'] = $role;
 
         // Redirect user to the appropriate dashboard based on their role (in this case, assuming a user dashboard)
         header('Location: ../user/user_dashboard.php');
@@ -28,5 +31,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die('Registration failed: ' . $e->getMessage());
     }
 }
-
 ?>
