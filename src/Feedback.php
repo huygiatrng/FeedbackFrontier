@@ -133,6 +133,20 @@ class Feedback
         return array_sum($ratings) / count($ratings);
     }
 
+    public static function calculateAverageRating($feedbackData)
+    {
+        $ratings = array(
+            $feedbackData['rating1'],
+            $feedbackData['rating2'],
+            $feedbackData['rating3'],
+            $feedbackData['rating4'],
+            $feedbackData['rating5'],
+            $feedbackData['rating6'],
+            $feedbackData['rating7']
+        );
+        return array_sum($ratings) / count($ratings);
+    }
+
     public function getUser()
     {
         // Use User class's getUserById method

@@ -37,7 +37,7 @@ $schools = School::getAllSchools($conn);
                             <th>ID</th>
                             <th>School Name</th>
                             <th>Created At</th>
-                            <th>Actions</th>
+                            <th style="width: 10%;">Actions</th>
                         </tr>
                         </thead>
                         <tbody>

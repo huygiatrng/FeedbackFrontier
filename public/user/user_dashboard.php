@@ -52,6 +52,7 @@ try {
 
 
 ?>
+
     <div class="row">
         <div class="col-12">
             <div class="card card-primary">
@@ -163,7 +164,6 @@ try {
             xhttp.send();
         }
     </script>
-
 
 
 <?php
