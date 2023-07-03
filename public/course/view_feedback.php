@@ -53,6 +53,9 @@ while ($row = $result->fetch_assoc()) {
 
 ?>
 
+    <div style="display: flex; justify-content: center; align-items: center; height: 300px;">
+        <div id="chart_div"></div>
+    </div>
     <div class="row">
         <div class="col-12">
             <div class="card card-primary">
@@ -65,11 +68,12 @@ while ($row = $result->fetch_assoc()) {
                     <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>From</th>
-                            <th>Submitted On</th>
-                            <th>Comments</th>
-                            <th>Action</th>
+                            <th style="width:3%;">#</th>
+                            <th style="width:20%;">From</th>
+                            <th style="width:10%;">Average Rating</th>
+                            <th style="width:10%;">Submitted On</th>
+                            <th style="width:45%;">Comments</th>
+                            <th style="width:12%;">Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -78,9 +82,10 @@ while ($row = $result->fetch_assoc()) {
                             <tr data-widget="expandable-table" aria-expanded="false">
                                 <td><?php echo $count; ?></td>
                                 <td><?php echo $feedback['anonymous'] ? 'Anonymous' : htmlspecialchars($feedback['first_name'] . ' ' . $feedback['last_name']); ?></td>
+                                <td style="text-align: center;"><strong style="color: orangered;font-size:1.5rem;"><?php echo round(Feedback::calculateAverageRating($feedback), 1); ?></strong></td>
                                 <td><?php echo date("F j, Y, g:i a", strtotime($feedback['createdAt'])); ?></td>
                                 <td><?php echo htmlspecialchars($feedback['feedback_text']); ?></td>
-                                <td><button class='btn btn-danger report-btn' data-feedback-id='<?php echo $feedback["feedback_id"]; ?>' data-course-id='<?php echo $course_id; ?>'>Report</button></td>
+                                <td ><button class='btn btn-danger report-btn' data-feedback-id='<?php echo $feedback["feedback_id"]; ?>' data-course-id='<?php echo $course_id; ?>'>Report</button></td>
                             </tr>
                             <tr class="expandable-body">
                                 <td colspan="<?php echo 5; ?>" class="">
@@ -103,7 +108,7 @@ while ($row = $result->fetch_assoc()) {
                             <?php $count++;
                         endforeach;
                         if ($count == 1) {
-                            echo "<tr><td colspan='4' class='text-center'>No feedback found.</td></tr>";
+                            echo "<tr><td colspan='6' class='text-center'>No feedback found.</td></tr>";
                         } ?>
 
                         </tbody>
@@ -164,6 +169,82 @@ while ($row = $result->fetch_assoc()) {
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", {packages:["corechart"]});
+        google.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Average Rating');
+            data.addColumn('number', 'Count');
+            data.addColumn({type: 'string', role: 'annotation'}); // add annotation column role
+            var ratings = [];
+
+            <?php foreach ($feedbacks as $feedback) {
+            $averageRating = floor(Feedback::calculateAverageRating($feedback) + 0.5);
+            echo "ratings.push($averageRating);";
+        } ?>
+
+            var ratingCounts = {}, i, value, size;
+            size = ratings.length;
+
+            for (i = 0; i < size; i++) {
+                value = ratings[i];
+                if (typeof ratingCounts[value] === "undefined") {
+                    ratingCounts[value] = 1;
+                } else {
+                    ratingCounts[value]++;
+                }
+            }
+
+            // Add all possible ratings (1 to 5) to ratingCounts if they don't exist
+            for (var rating = 1; rating <= 5; rating++) {
+                if (typeof ratingCounts[rating] === "undefined") {
+                    ratingCounts[rating] = 0;
+                }
+            }
+
+            for (rating in ratingCounts) {
+                if (ratingCounts.hasOwnProperty(rating)) {
+                    // add count value as annotation
+                    data.addRow([rating, ratingCounts[rating], ratingCounts[rating].toString()]);
+                }
+            }
+
+            var options = {
+                title: 'Distribution of Average Ratings',
+                width: 400,
+                height: 300,
+                legend: 'none',
+                hAxis: {
+                    title: null,
+                    gridlines: {
+                        color: 'transparent'
+                    },
+                    ticks: [] // hide x-axis ticks
+                },
+                vAxis: {
+                    title: null,
+                    gridlines: {
+                        color: 'transparent'
+                    },
+                    ticks: [1, 2, 3, 4, 5]
+                },
+                chartArea: {
+                    width: '80%',
+                    height: '80%'
+                },
+                titleTextStyle: {
+                    fontSize: 20 // increase title text size
+                }
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+    </script>
 
 
     <script type="text/javascript">
