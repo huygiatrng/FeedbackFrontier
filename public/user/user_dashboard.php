@@ -86,7 +86,7 @@ try {
                             <input type="text" id="courseSubBox" class="form-control" placeholder="Subject..." oninput="searchCourses()">
 
                         </div>
-                        <div class="col-lg-1 col-md-6 mb-3">
+                        <div class="col-lg-2 col-md-6 mb-3">
                             <input type="text" id="courseNumBox" class="form-control" placeholder="Course number..." oninput="searchCourses()">
 
                         </div>
@@ -151,8 +151,8 @@ try {
                     <td>${element.course_subject} ${element.course_number}</td>
                         <td>${element.instructor_name}</td>
                     <td class="text-center">
-                            <a class="btn btn-success" href="../course/course_feedback.php?course_id=${element.course_id}">Provide Feedback</a>
-                            <a class="btn btn-success" href="../course/view_feedback.php?course_id=${element.course_id}">View Feedback</a>
+                            <a class="btn btn-success m-1" href="../course/course_feedback.php?course_id=${element.course_id}">Provide Feedback</a>
+                            <a class="btn btn-success m-1" href="../course/view_feedback.php?course_id=${element.course_id}">View Feedback</a>
                     </tr>`;
                     });
                     (html == "") ? html = "<tr><td colspan='5'>No course found.</td></tr>": html = html;

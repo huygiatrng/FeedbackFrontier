@@ -43,6 +43,37 @@ class Course
         return $row['school_id'];
     }
 
+    public function getAverageFeedbackDistribution()
+    {
+        // Create an array to hold the distribution
+        $distribution = array(1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0);
+
+        // Query to fetch feedbacks for this course
+        $query = "SELECT * FROM feedback WHERE course_id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $this->course_id);
+        $stmt->execute();
+
+        // Retrieve the result
+        $result = $stmt->get_result();
+
+        // Loop through each feedback
+        while ($row = $result->fetch_assoc()) {
+            // Calculate the average rating
+            $averageRating = Feedback::calculateAverageRating($row);
+
+            // Round the average rating to nearest integer
+            $roundedRating = round($averageRating);
+
+            // Increment the corresponding index in the distribution
+            $distribution[$roundedRating]++;
+        }
+
+        // Return the distribution
+        return $distribution;
+    }
+
+
     public function getSubject()
     {
         $query = "SELECT course_subject FROM courses WHERE course_id = $this->course_id";
