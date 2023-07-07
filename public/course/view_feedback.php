@@ -71,6 +71,10 @@ while ($row = $result->fetch_assoc()) {
                                 <strong>Instructor: </strong><?php echo "$instructorName"; ?></p>
                                 <strong>CRN: </strong><?php echo "$crn"; ?></p>
                                 <?php echo "<strong>Number of feedback: </strong>" . count($feedbacks); ?></p>
+                                <?php
+                                $avgRating = Course::calculateAverageRatingOfCourse($course);
+                                echo "<strong>Average Rating: </strong>" . $avgRating;
+                                ?>
                             </div>
                         </div>
                     </div>
