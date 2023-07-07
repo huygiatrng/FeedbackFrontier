@@ -68,13 +68,13 @@ while ($row = $result->fetch_assoc()) {
                         <div class="card-body bg-white" style="width: 20em;">
                             <p class="card-text" style="font-size: 2.5em;">
                             <div>
+                                <?php
+                                $avgRating = Course::calculateAverageRatingOfCourse($course);
+                                echo "<strong>Average Rating: </strong><div style='font-size:2.5em; color:orangered'>" . $avgRating;
+                                ?></div>
                                 <strong>Instructor: </strong><?php echo "$instructorName"; ?></p>
                                 <strong>CRN: </strong><?php echo "$crn"; ?></p>
                                 <?php echo "<strong>Number of feedback: </strong>" . count($feedbacks); ?></p>
-                                <?php
-                                $avgRating = Course::calculateAverageRatingOfCourse($course);
-                                echo "<strong>Average Rating: </strong>" . $avgRating;
-                                ?>
                             </div>
                         </div>
                     </div>
