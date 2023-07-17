@@ -89,4 +89,3 @@ ob_start();
 <?php
 $pageJs = ob_get_clean();
 include '../../includes/base.php';
-?>
