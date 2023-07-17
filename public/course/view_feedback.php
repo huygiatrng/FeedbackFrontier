@@ -53,23 +53,65 @@ while ($row = $result->fetch_assoc()) {
 
 ?>
 
+    <div id="header-page" class="col-12 pl-0 mt-4 mb-4 flex-wrap"
+         style="display: flex; justify-content: column; justify-content: center; align-items: center;">
+        <div class="col-md-6 pl-5">
+            <div class="card card-primary border-primary mb-4">
+                <div class="card-header"><h1><?php echo "$courseTitle"; ?></h1></div>
+                <div class="card-header bg-orange text-white pb-0">
+                    <h2 class="card-title">
+                        <strong><?php echo "$season $year - $courseSub $courseNum"; ?></strong>
+                    </h2>
+                </div>
+                <div class="col-12 row flex-wrap ">
+                    <div class="col-md-4">
+                        <div class="card-body bg-white" style="width: 20em;">
+                            <p class="card-text" style="font-size: 2.5em;">
+                            <div>
+                                <?php
+                                $avgRating = Course::calculateAverageRatingOfCourse($course);
+                                echo "<strong>Average Rating: </strong><div style='font-size:2.5em; color:orangered'>" . $avgRating;
+                                ?></div>
+                                <strong>Instructor: </strong><?php echo "$instructorName"; ?></p>
+                                <strong>CRN: </strong><?php echo "$crn"; ?></p>
+                                <?php echo "<strong>Number of feedback: </strong>" . count($feedbacks); ?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 pt-5 pb-4 ">
+                        <div class="d-flex flex-wrap justify-content-center ">
+                            <?php
+                            echo "<a class='btn btn-success m-2' style='font-size: 2.0em;width: 10em; color: white;' href='../course/course_feedback.php?course_id=$course_id'>Provide Feedback</a>";
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 d-flex justify-content-center">
+            <div class="h-5 w-5">
+                <div class="card border-primary chart-container" style="overflow:hidden" id="chart_div"></div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-12">
             <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">You are viewing feedbacks
-                        for <?php echo "$courseTitle - $courseSub $courseNum - $season $year - $instructorName - $crn"; ?></h3>
+                <div class="card-header pb-0">
+                    <h3 class="card-title"><h2>Feedbacks</h2></h3>
                 </div>
                 <!-- ./card-header -->
                 <div class="card-body table-responsive">
                     <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>From</th>
-                            <th>Submitted On</th>
-                            <th>Comments</th>
-                            <th>Action</th>
+                            <th style="width:3%;">#</th>
+                            <th style="width:20%;">From</th>
+                            <th style="width:10%;">Average Rating</th>
+                            <th style="width:35%;">Comments</th>
+                            <th style="width:20%;">Submitted On</th>
+                            <th style="width:12%;">Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -78,9 +120,17 @@ while ($row = $result->fetch_assoc()) {
                             <tr data-widget="expandable-table" aria-expanded="false">
                                 <td><?php echo $count; ?></td>
                                 <td><?php echo $feedback['anonymous'] ? 'Anonymous' : htmlspecialchars($feedback['first_name'] . ' ' . $feedback['last_name']); ?></td>
-                                <td><?php echo date("F j, Y, g:i a", strtotime($feedback['createdAt'])); ?></td>
+                                <td style="text-align: center;"><strong
+                                            style="color: orangered;font-size:1.5rem;"><?php echo round(Feedback::calculateAverageRating($feedback), 1); ?></strong>
+                                </td>
                                 <td><?php echo htmlspecialchars($feedback['feedback_text']); ?></td>
-                                <td><button class='btn btn-danger report-btn' data-feedback-id='<?php echo $feedback["feedback_id"]; ?>' data-course-id='<?php echo $course_id; ?>'>Report</button></td>
+                                <td><?php echo date("F j, Y, g:i a", strtotime($feedback['createdAt'])); ?></td>
+                                <td>
+                                    <button class='btn btn-danger report-btn'
+                                            data-feedback-id='<?php echo $feedback["feedback_id"]; ?>'
+                                            data-course-id='<?php echo $course_id; ?>'>Report
+                                    </button>
+                                </td>
                             </tr>
                             <tr class="expandable-body">
                                 <td colspan="<?php echo 5; ?>" class="">
@@ -103,7 +153,7 @@ while ($row = $result->fetch_assoc()) {
                             <?php $count++;
                         endforeach;
                         if ($count == 1) {
-                            echo "<tr><td colspan='4' class='text-center'>No feedback found.</td></tr>";
+                            echo "<tr><td colspan='6' class='text-center'>No feedback found.</td></tr>";
                         } ?>
 
                         </tbody>
@@ -158,7 +208,6 @@ while ($row = $result->fetch_assoc()) {
     <a class="btn btn-secondary" href="../user/user_dashboard.php">Back to Dashboard</a>
 
 
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -166,10 +215,87 @@ while ($row = $result->fetch_assoc()) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 
 
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
+        google.load("visualization", "1", {packages: ["corechart"]});
+        google.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Average Rating');
+            data.addColumn('number', 'Count');
+            data.addColumn({type: 'string', role: 'annotation'}); // add annotation column role
+            var ratings = [];
+
+            <?php foreach ($feedbacks as $feedback) {
+            $averageRating = floor(Feedback::calculateAverageRating($feedback) + 0.5);
+            echo "ratings.push($averageRating);";
+        } ?>
+
+            var ratingCounts = {}, i, value, size;
+            size = ratings.length;
+
+            for (i = 0; i < size; i++) {
+                value = ratings[i];
+                if (typeof ratingCounts[value] === "undefined") {
+                    ratingCounts[value] = 1;
+                } else {
+                    ratingCounts[value]++;
+                }
+            }
+
+            // Add all possible ratings (1 to 5) to ratingCounts if they don't exist
+            for (var rating = 1; rating <= 5; rating++) {
+                if (typeof ratingCounts[rating] === "undefined") {
+                    ratingCounts[rating] = 0;
+                }
+            }
+
+            for (rating in ratingCounts) {
+                if (ratingCounts.hasOwnProperty(rating)) {
+                    // add count value as annotation
+                    data.addRow([rating, ratingCounts[rating], ratingCounts[rating].toString()]);
+                }
+            }
+
+            var options = {
+                title: 'Distribution of Average Ratings',
+                width: 400,
+                height: 300,
+                legend: 'none',
+                hAxis: {
+                    title: null,
+                    gridlines: {
+                        color: 'transparent'
+                    },
+                    ticks: [] // hide x-axis ticks
+                },
+                vAxis: {
+                    title: null,
+                    gridlines: {
+                        color: 'transparent'
+                    },
+                    ticks: [1, 2, 3, 4, 5]
+                },
+                chartArea: {
+                    width: '80%',
+                    height: '80%'
+                },
+                titleTextStyle: {
+                    fontSize: 20 // increase title text size
+                }
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+    </script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
             // Handle row click
-            $('tr[data-widget="expandable-table"]').click(function() {
+            $('tr[data-widget="expandable-table"]').click(function () {
                 var $expandableBody = $(this).next('.expandable-body');
                 if ($expandableBody.is(':visible')) {
                     $expandableBody.hide('fast');
@@ -179,7 +305,7 @@ while ($row = $result->fetch_assoc()) {
             });
 
             // Handle report button click
-            $(".report-btn").click(function(event) {
+            $(".report-btn").click(function (event) {
                 event.stopPropagation();
                 var feedback_id = $(this).data('feedback-id');
                 $("#feedback_id").val(feedback_id);
@@ -188,7 +314,7 @@ while ($row = $result->fetch_assoc()) {
                 $('#reportModal').modal('show');
             });
 
-            $("#submitReport").click(function(e){
+            $("#submitReport").click(function (e) {
                 e.preventDefault(); // prevent form from submitting normally
                 var feedback_id = $("#feedback_id").val();
                 var course_id = $("#course_id").val();
@@ -198,8 +324,13 @@ while ($row = $result->fetch_assoc()) {
                 $.ajax({
                     type: "POST",
                     url: "handle_report.php",
-                    data: {feedback_id: feedback_id, course_id: course_id, reason_option: reason_option, reason_text: reason_text},
-                    success: function(response) {
+                    data: {
+                        feedback_id: feedback_id,
+                        course_id: course_id,
+                        reason_option: reason_option,
+                        reason_text: reason_text
+                    },
+                    success: function (response) {
                         // close the report modal
                         $('#reportModal').modal('hide');
 
@@ -220,13 +351,13 @@ while ($row = $result->fetch_assoc()) {
                         $('body').append(modal);
 
                         // fade out the modal after 1 second
-                        setTimeout(function() {
-                            $('#successModal').fadeOut(500, function() {
+                        setTimeout(function () {
+                            $('#successModal').fadeOut(500, function () {
                                 $(this).remove();
                             });
                         }, 1000);
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         // handle error
                         console.log(status, error);
                         alert("An error occurred. Please try again later.");
@@ -236,6 +367,13 @@ while ($row = $result->fetch_assoc()) {
         });
     </script>
 
+    <style>
+        @header-page (max-width: 768px) {
+            .flex {
+                flex-direction: column;
+            }
+        }
+    </style>
 
 <?php
 $content = ob_get_clean();

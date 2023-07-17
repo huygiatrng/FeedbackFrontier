@@ -43,6 +43,7 @@ class Course
         return $row['school_id'];
     }
 
+
     public function getSubject()
     {
         $query = "SELECT course_subject FROM courses WHERE course_id = $this->course_id";
@@ -143,6 +144,37 @@ class Course
         } else {
             throw new Exception("Error: " . $stmt->error);
         }
+    }
+
+    public static function calculateAverageRatingOfCourse($course)
+    {
+        global $conn;
+        // get all feedbacks for this course.
+        $course_id = $course["course_id"];
+        $query = "SELECT * FROM feedback WHERE course_id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $course_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if($result->num_rows == 0){
+            return 'No feedback';
+        }
+
+        $totalAverageRating = 0;
+        $feedbackCount = 0;
+        while ($row = $result->fetch_assoc()) {
+            $avgRating = Feedback::calculateAverageRating($row);
+            if (!is_numeric($avgRating)) {
+                throw new \Exception('Feedback::calculateAverageRating did not return a numeric value. Instead got: ' . var_export($avgRating, true));
+            }
+            $totalAverageRating += $avgRating;
+            $feedbackCount++;
+        }
+
+        // Calculate average, round to 2 decimal places, and return as string
+        $averageRating = $totalAverageRating / $feedbackCount;
+        return number_format($averageRating, 2, '.', '');
     }
 
 

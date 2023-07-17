@@ -32,10 +32,17 @@ try {
     // Check if the query returned any rows
     if ($result->num_rows > 0) {
         $student = $result->fetch_assoc();
-        $school_id = $student['school_id'];
+
+        if ($student['school_id'] != null) {   // Replace $row with $student
+            $school_id = $student['school_id'];
+        } else {
+            header("Location:add_school.php");
+            exit();
+        }
     } else {
         die('No user found with the given ID.');
     }
+
 
     // Get courses of the user's school
     $stmt = $conn->prepare('SELECT course_id, course_subject, course_number, instructor_name FROM Courses WHERE school_id = ?');
@@ -52,6 +59,7 @@ try {
 
 
 ?>
+
     <div class="row">
         <div class="col-12">
             <div class="card card-primary">
@@ -85,7 +93,7 @@ try {
                             <input type="text" id="courseSubBox" class="form-control" placeholder="Subject..." oninput="searchCourses()">
 
                         </div>
-                        <div class="col-lg-1 col-md-6 mb-3">
+                        <div class="col-lg-2 col-md-6 mb-3">
                             <input type="text" id="courseNumBox" class="form-control" placeholder="Course number..." oninput="searchCourses()">
 
                         </div>
@@ -150,8 +158,8 @@ try {
                     <td>${element.course_subject} ${element.course_number}</td>
                         <td>${element.instructor_name}</td>
                     <td class="text-center">
-                            <a class="btn btn-success" href="../course/course_feedback.php?course_id=${element.course_id}">Provide Feedback</a>
-                            <a class="btn btn-success" href="../course/view_feedback.php?course_id=${element.course_id}">View Feedback</a>
+                            <a class="btn btn-success m-1" href="../course/course_feedback.php?course_id=${element.course_id}">Provide Feedback</a>
+                            <a class="btn btn-success m-1" href="../course/view_feedback.php?course_id=${element.course_id}">View Feedback</a>
                     </tr>`;
                     });
                     (html == "") ? html = "<tr><td colspan='5'>No course found.</td></tr>": html = html;
@@ -163,7 +171,6 @@ try {
             xhttp.send();
         }
     </script>
-
 
 
 <?php
