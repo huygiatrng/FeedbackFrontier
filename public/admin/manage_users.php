@@ -56,7 +56,8 @@ $students = User::getStudents($conn);
                                 <a href="adjust/edit_user.php?user_id=<?php echo $student->user_id; ?>"
                                    class="btn btn-sm btn-warning text-white"> <i class="fas fa-edit"></i></a> |
                                 <a href="adjust/delete_user.php?user_id=<?php echo $student->user_id; ?>"
-                                   onclick="deleteAlert(event);" class="btn btn-sm btn-danger"> <i class="fa fa-trash" aria-hidden="true"></i></a>
+                                   onclick="deleteAlert(event);" class="btn btn-sm btn-danger"> <i class="fa fa-trash"
+                                                                                                   aria-hidden="true"></i></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

@@ -28,6 +28,9 @@ $course = $result->fetch_assoc();
 // Fetch schools
 $schools = $conn->query("SELECT * FROM School");
 
+$seasons = ['Spring', 'Summer', 'Fall', 'Winter'];
+$years = range(1980, 2023);
+
 // Process the form when it is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $course_subject = htmlspecialchars($_POST['course_subject']);
@@ -36,9 +39,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $school_id = htmlspecialchars($_POST['school_id']);
     $instructor_name = htmlspecialchars($_POST['instructor_name']);
 
+    $season = htmlspecialchars($_POST['season']);
+    $year = htmlspecialchars($_POST['year']);
+
     // Prepare the UPDATE statement
-    $stmt = $conn->prepare("UPDATE Courses SET course_subject = ?, course_number = ?, CRN = ?, school_id = ?, instructor_name = ? WHERE course_id = ?");
-    $stmt->bind_param("ssissi", $course_subject, $course_number, $CRN, $school_id, $instructor_name, $course_id);
+    $stmt = $conn->prepare("UPDATE Courses SET course_subject = ?, course_number = ?, CRN = ?, school_id = ?, instructor_name = ?, season = ?, year = ? WHERE course_id = ?");
+    $stmt->bind_param("ssiissii", $course_subject, $course_number, $CRN, $school_id, $instructor_name, $season, $year, $course_id);
 
     // Execute the statement
     if ($stmt->execute()) {
@@ -66,6 +72,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="col-lg-4 col-md-6 mb-3">
                             <label for="course_number" class="form-label">Course Number:</label>
                             <input type="text" id="course_number" name="course_number" value="<?php echo $course['course_number']; ?>" required class="form-control">
+                        </div>
+                        <div class="col-lg-4 col-md-6 mb-3">
+                            <label for="season" class="form-label">Season:</label>
+                            <select id="season" name="season" required class="form-control">
+                                <?php foreach ($seasons as $season): ?>
+                                    <option value="<?php echo $season; ?>" <?php echo ($season == $course['season']) ? 'selected' : ''; ?>><?php echo $season; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="col-lg-4 col-md-6 mb-3">
+                            <label for="year" class="form-label">Year:</label>
+                            <select id="year" name="year" required class="form-control">
+                                <?php foreach ($years as $year): ?>
+                                    <option value="<?php echo $year; ?>" <?php echo ($year == $course['year']) ? 'selected' : ''; ?>><?php echo $year; ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
                         <div class="col-lg-4 col-md-6 mb-3">
                             <label for="CRN" class="form-label">CRN:</label>

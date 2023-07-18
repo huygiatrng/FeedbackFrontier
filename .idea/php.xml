@@ -10,11 +10,73 @@
     <option name="highlightLevel" value="WARNING" />
     <option name="transferred" value="true" />
   </component>
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/unittest/vendor/sebastian/version" />
+      <path value="$PROJECT_DIR$/unittest/vendor/sebastian/type" />
+      <path value="$PROJECT_DIR$/unittest/vendor/sebastian/recursion-context" />
+      <path value="$PROJECT_DIR$/unittest/vendor/sebastian/object-reflector" />
+      <path value="$PROJECT_DIR$/unittest/vendor/sebastian/object-enumerator" />
+      <path value="$PROJECT_DIR$/unittest/vendor/sebastian/lines-of-code" />
+      <path value="$PROJECT_DIR$/unittest/vendor/sebastian/global-state" />
+      <path value="$PROJECT_DIR$/unittest/vendor/sebastian/exporter" />
+      <path value="$PROJECT_DIR$/unittest/vendor/sebastian/environment" />
+      <path value="$PROJECT_DIR$/unittest/vendor/sebastian/diff" />
+      <path value="$PROJECT_DIR$/unittest/vendor/sebastian/complexity" />
+      <path value="$PROJECT_DIR$/unittest/vendor/sebastian/comparator" />
+      <path value="$PROJECT_DIR$/unittest/vendor/sebastian/code-unit-reverse-lookup" />
+      <path value="$PROJECT_DIR$/unittest/vendor/sebastian/code-unit" />
+      <path value="$PROJECT_DIR$/unittest/vendor/sebastian/cli-parser" />
+      <path value="$PROJECT_DIR$/unittest/vendor/theseer/tokenizer" />
+      <path value="$PROJECT_DIR$/unittest/vendor/phpunit/phpunit" />
+      <path value="$PROJECT_DIR$/unittest/vendor/phpunit/php-timer" />
+      <path value="$PROJECT_DIR$/unittest/vendor/phpunit/php-text-template" />
+      <path value="$PROJECT_DIR$/unittest/vendor/phpunit/php-invoker" />
+      <path value="$PROJECT_DIR$/unittest/vendor/phpunit/php-file-iterator" />
+      <path value="$PROJECT_DIR$/unittest/vendor/phpunit/php-code-coverage" />
+      <path value="$PROJECT_DIR$/unittest/vendor/phar-io/version" />
+      <path value="$PROJECT_DIR$/unittest/vendor/phar-io/manifest" />
+      <path value="$PROJECT_DIR$/unittest/vendor/myclabs/deep-copy" />
+      <path value="$PROJECT_DIR$/unittest/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/unittest/vendor/composer" />
+      <path value="$PROJECT_DIR$/public/authentication/googleLogin/google-api/vendor/google/apiclient-services" />
+      <path value="$PROJECT_DIR$/public/authentication/googleLogin/google-api/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/public/authentication/googleLogin/google-api/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/public/authentication/googleLogin/google-api/vendor/google/auth" />
+      <path value="$PROJECT_DIR$/public/authentication/googleLogin/google-api/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/public/authentication/googleLogin/google-api/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/public/authentication/googleLogin/google-api/vendor/firebase/php-jwt" />
+      <path value="$PROJECT_DIR$/public/authentication/googleLogin/google-api/vendor/composer" />
+      <path value="$PROJECT_DIR$/public/authentication/googleLogin/google-api/vendor/phpseclib/phpseclib" />
+      <path value="$PROJECT_DIR$/public/authentication/googleLogin/google-api/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/public/authentication/googleLogin/google-api/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/public/authentication/googleLogin/google-api/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/public/authentication/googleLogin/google-api/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/public/authentication/google-api/vendor/composer" />
+      <path value="$PROJECT_DIR$/public/authentication/google-api/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/public/authentication/google-api/vendor/google/auth" />
+      <path value="$PROJECT_DIR$/public/authentication/google-api/vendor/google/apiclient-services" />
+      <path value="$PROJECT_DIR$/public/authentication/google-api/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/public/authentication/google-api/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/public/authentication/google-api/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/public/authentication/google-api/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/public/authentication/google-api/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/public/authentication/google-api/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/public/authentication/google-api/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/public/authentication/google-api/vendor/phpseclib/phpseclib" />
+      <path value="$PROJECT_DIR$/public/authentication/google-api/vendor/firebase/php-jwt" />
+    </include_path>
+  </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.0">
     <option name="suggestChangeDefaultLanguageLevel" value="false" />
   </component>
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />
+  </component>
+  <component name="PhpUnit">
+    <phpunit_settings>
+      <PhpUnitSettings custom_loader_path="$PROJECT_DIR$/unittest/vendor/autoload.php" />
+    </phpunit_settings>
   </component>
   <component name="PsalmOptionsConfiguration">
     <option name="transferred" value="true" />

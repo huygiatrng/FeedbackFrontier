@@ -64,14 +64,17 @@ if ($result->num_rows > 0) {
                             <textarea id="feedback_text" name="feedback_text" class="form-control" rows="3"></textarea><br>
                         </div>
                         <div class="col-12 mb-3 d-flex justify-content-center   ">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="is_anonymous" name="is_anonymous">
-                                <label class="form-check-label" for="is_anonymous">Check this if you want to submit feedback anonymously.</label>
+<!--                            <div class="form-check">-->
+<!--                                <input class="form-check-input" type="checkbox" id="is_anonymous" name="is_anonymous">-->
+<!--                                <label class="form-check-label" for="is_anonymous">Check this if you want to submit feedback anonymously.</label>-->
+<!--                            </div>-->
+                            <div class="form-check custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input form-check-input" id="is_anonymous" name="is_anonymous">
+                                <label class="form-check-label custom-control-label" for="is_anonymous">Check this if you want to submit feedback anonymously.</label>
                             </div>
                         </div>
                         <div class="col-12 d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary">Submit Feedback</button>
-
                         </div>
                     </div>
                 </form>

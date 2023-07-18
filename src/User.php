@@ -69,6 +69,29 @@ class User
         $this->password = password_hash($newPassword, PASSWORD_DEFAULT);
     }
 
+    public function changeSchoolId($newSchoolId)
+    {
+        // You may want to add some validation here to make sure the school id is valid
+        // e.g., check if the school id exists in the schools table
+        $this->properties['school_id'] = $newSchoolId;
+    }
+
+    public function saveSchoolId() {
+        $conn = $GLOBALS['conn']; // assuming a global $conn
+
+        $sql = "UPDATE Users SET school_id = ? WHERE user_id = ?";
+        if ($stmt = $conn->prepare($sql)) {
+            $stmt->bind_param("ii", $this->properties['school_id'], $this->properties['user_id']);
+            if (!$stmt->execute()) {
+                throw new \Exception("SQL execution error: " . $conn->error);
+            }
+        } else {
+            throw new \Exception("SQL prepare error: " . $conn->error);
+        }
+    }
+
+
+
     public function getFeedbacks() {
         return Feedback::getFeedbacksByUserId($this->user_id);
     }
@@ -77,6 +100,8 @@ class User
     {
         return Report::getReportsByUserId($this->user_id);
     }
+
+
 
     public function changeEmail($newEmail)
     {
@@ -222,18 +247,47 @@ class User
 
     public static function getUserByEmail($email, $conn)
     {
-        $stmt = $conn->prepare("SELECT * FROM Users WHERE email = ?");
+        $stmt = $conn->prepare("SELECT user_id FROM Users WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
-        $result = $stmt->get_result();
+        $result = new MysqliResultWrapper($stmt->get_result());
 
-        if ($result->num_rows > 0) {
-            return $result->fetch_assoc();
+        if ($result->num_rows() > 0) {
+            $user = $result->fetch_assoc();
+            return self::getUserById($user['user_id'], $conn);
         } else {
             return null;
         }
     }
 
+
+    public static function authenticate($email, $password, $conn)
+    {
+        // Prepare the SQL query
+        $stmt = $conn->prepare("SELECT * FROM Users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+
+        // Execute the SQL query
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        // If a record is found
+        if ($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+
+            // Verify the password
+            if (password_verify($password, $user['password'])) {
+                // If the password is correct, return the user
+                return new User($user);
+            } else {
+                // If the password is incorrect, return null
+                return null;
+            }
+        } else {
+            // If no user is found, return null
+            return null;
+        }
+    }
 
 }
 ?>

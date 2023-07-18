@@ -32,10 +32,19 @@ try {
     // Check if the query returned any rows
     if ($result->num_rows > 0) {
         $student = $result->fetch_assoc();
-        $school_id = $student['school_id'];
+
+        if ($student['school_id'] != null) {   // Replace $row with $student
+            $school_id = $student['school_id'];
+        } else {
+            header("Location:add_school.php");
+            exit();
+        }
     } else {
-        die('No user found with the given ID.');
+        session_destroy();
+        header("Location: ../authentication/login.php");
+        exit();
     }
+
 
     // Get courses of the user's school
     $stmt = $conn->prepare('SELECT course_id, course_subject, course_number, instructor_name FROM Courses WHERE school_id = ?');
@@ -73,7 +82,7 @@ try {
                         <div class="col-lg-1 col-md-6 mb-3">
                             <select id="yearBox" onchange="searchCourses()" class="form-control">
                                 <option value="">Year</option>
-                                <?php for ($i = 1980; $i <= 2023; $i++) : ?>
+                                <?php for ($i = 2023; $i >= 1980; $i--) : ?>
                                     <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
                                 <?php endfor; ?>
                             </select>
@@ -86,7 +95,7 @@ try {
                             <input type="text" id="courseSubBox" class="form-control" placeholder="Subject..." oninput="searchCourses()">
 
                         </div>
-                        <div class="col-lg-1 col-md-6 mb-3">
+                        <div class="col-lg-2 col-md-6 mb-3">
                             <input type="text" id="courseNumBox" class="form-control" placeholder="Course number..." oninput="searchCourses()">
 
                         </div>
@@ -118,6 +127,7 @@ try {
                             <th>CRN</th>
                             <th>Course Name</th>
                             <th>Instructor</th>
+                            <th>Number of feedbacks</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -149,10 +159,11 @@ try {
                     <td>${element.year}</td>
                     <td>${element.CRN}</td>
                     <td>${element.course_subject} ${element.course_number}</td>
-                        <td>${element.instructor_name}</td>
+                    <td>${element.instructor_name}</td>
+                    <td>${element.instructor_name}</td>
                     <td class="text-center">
-                            <a class="btn btn-success" href="../course/course_feedback.php?course_id=${element.course_id}">Provide Feedback</a>
-                            <a class="btn btn-success" href="../course/view_feedback.php?course_id=${element.course_id}">View Feedback</a>
+                            <a class="btn btn-success m-1" href="../course/course_feedback.php?course_id=${element.course_id}">Provide Feedback</a>
+                            <a class="btn btn-success m-1" href="../course/view_feedback.php?course_id=${element.course_id}">View Feedback</a>
                     </tr>`;
                     });
                     (html == "") ? html = "<tr><td colspan='5'>No course found.</td></tr>": html = html;

@@ -126,12 +126,6 @@ class Feedback
         return array($this->rating1, $this->rating2, $this->rating3, $this->rating4, $this->rating5, $this->rating6, $this->rating7);
     }
 
-    // additional useful methods you might need
-    public function getAverageRating()
-    {
-        $ratings = $this->getRatings();
-        return array_sum($ratings) / count($ratings);
-    }
 
     public static function calculateAverageRating($feedbackData)
     {
@@ -144,8 +138,22 @@ class Feedback
             $feedbackData['rating6'],
             $feedbackData['rating7']
         );
-        return array_sum($ratings) / count($ratings);
+
+        foreach($ratings as $rating){
+            if(!is_numeric($rating)) {
+                throw new \Exception("Non-numeric rating detected: " . var_export($rating, true));
+            }
+        }
+
+        $averageRating = array_sum($ratings) / count($ratings);
+        if (!is_numeric($averageRating)) {
+            throw new \Exception("Unexpected non-numeric value for average rating");
+        }
+
+        return $averageRating;
     }
+
+
 
     public function getUser()
     {
