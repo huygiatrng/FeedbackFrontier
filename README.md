@@ -4,7 +4,6 @@ The Course Feedback Website acts as a bridge between users and the database. The
 
 ## System requirement
 **1. Users:** These include both general users (who could be students, instructors) providing and accessing feedback, and administrators managing the site. Users can be affiliated with individual schools.
-
 **1. Course Feedback Website:** This is a user-friendly, comprehensive platform where users can find and review courses, and view feedback from others. The site will provide an effective search engine to facilitate course search by multiple parameters including semester, year, course name, CRN, and instructor name.
 
 **1. Privacy Module**: This component ensures users can give feedback anonymously, encouraging honest input. This module will also include safeguards to prevent abuse of the anonymity feature.
