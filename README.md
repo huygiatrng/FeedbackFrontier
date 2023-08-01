@@ -23,3 +23,10 @@ The Course Feedback Website acts as a bridge between users and the database. The
 
 **10. Third-party Services/APIs:** The site can integrate with third-party services, such as direct university database querying and social media sharing, enhancing its functionality.
 
+
+![image](https://github.com/huygiatrng/CourseFeedbackWeb/assets/67343196/78a5e112-6cef-415c-82f6-3d64f1cc4ed9)
+
+
+
+![image](https://github.com/huygiatrng/CourseFeedbackWeb/assets/67343196/387ec18d-b509-4af3-a53e-0a22c88801f8)
+
