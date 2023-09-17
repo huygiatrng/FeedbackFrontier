@@ -6,7 +6,7 @@ CourseFeedbackWeb is an innovative platform designed to bridge users and the dat
 
 ## Features 🌟
 
-![image](https://github.com/huygiatrng/CourseFeedbackWeb/assets/67343196/8d187852-cb40-4d04-8fd8-bbae51df19a2) 
+![image](https://github.com/huygiatrng/CourseFeedbackWeb/assets/67343196/e85c0e27-4aa7-4934-b663-e218dd54a9cf)
 
 1. **Users**:
     - Caters to general users (students, instructors) and administrators.
