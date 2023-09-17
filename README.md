@@ -1,32 +1,59 @@
 # CourseFeedbackWeb
 
-The Course Feedback Website acts as a bridge between users and the database. The Authentication System validates user identity and access rights. Users can easily search for courses using the robust search engine and provide feedback through the Feedback Module, which is stored in the Feedback Database. The Privacy Module ensures the protection of user identity where necessary. The Report System allows users to flag inappropriate feedback, aiding in moderation. The website can also engage with Third-party Services/APIs to enhance its functionality, offering a comprehensive and optimized user experience.
+CourseFeedbackWeb is an innovative platform designed to bridge users and the database, focusing primarily on streamlining the process of accessing and providing course feedback. Developed using PHP, HTML/CSS, JavaScript (with AJAX), and MySQL, it guarantees a seamless and effective user experience. Bootstrap and Google API further enhance the UI design and user authentication respectively.
 
-## System requirement
-**1. Users:** These include both general users (who could be students, instructors) providing and accessing feedback, and administrators managing the site. Users can be affiliated with individual schools.
+## Features 🌟
 
-**2. Course Feedback Website:** This is a user-friendly, comprehensive platform where users can find and review courses, and view feedback from others. The site will provide an effective search engine to facilitate course search by multiple parameters including semester, year, course name, CRN, and instructor name.
+1. **Users**:
+    - Caters to general users (students, instructors) and administrators.
+    - Allows affiliations with individual schools.
 
-**3. Privacy Module**: This component ensures users can give feedback anonymously, encouraging honest input. This module will also include safeguards to prevent abuse of the anonymity feature.
+2. **Course Feedback Website**:
+    - Efficient search engine for course search (by semester, year, course name, CRN, instructor).
+    - View and provide feedback on courses.
 
-**4. Course Database:** This contains detailed information about courses across different schools. Each course's long title is auto-generated from the course code, enhancing the efficiency of data management.
+3. **Privacy Module**:
+    - Enables anonymous feedback submission.
+    - Safeguards against misuse of the anonymity feature.
 
-**5. Feedback Database:** This stores all feedback from users. The structured nature of the data allows for efficient analysis and continuous improvement of the platform.
+4. **Course Database**:
+    - Detailed info about courses across different schools.
+    - Auto-generated long title from course code.
 
-**6. Feedback Module:** This includes a Likert scale questionnaire for consistent feedback, a free-form question section for additional insights, and a report system to maintain the integrity of feedback.
+5. **Feedback Database**:
+    - Repository for all user feedback.
+    - Structured data format for efficient analysis.
 
-**7. School Database:** This feature has been added to facilitate management of courses and feedback at the school level.
+6. **Feedback Module**:
+    - Likert scale questionnaire for consistency.
+    - Free-form section for additional insights.
+    - Report system to ensure feedback integrity.
 
-**8. Authentication System:** This system, integrated with Google API, allows users to create and log in to their accounts using their Google credentials, ensuring secure and convenient access.
+7. **School Database**:
+    - Management of courses and feedback at the school level.
 
-**9. Report System:** This system enables users to report inappropriate feedback, helping maintain a respectful environment conducive to constructive input.
+8. **Authentication System**:
+    - Integrated with Google API.
+    - Secure login with Google credentials.
 
-**10. Third-party Services/APIs:** The site can integrate with third-party services, such as direct university database querying and social media sharing, enhancing its functionality.
+9. **Report System**:
+    - Flag inappropriate feedback.
+    - Ensures a respectful feedback environment.
 
+10. **Third-party Services/APIs**:
+    - Potential for integration with university databases.
+    - Enables social media sharing.
 
-![image](https://github.com/huygiatrng/CourseFeedbackWeb/assets/67343196/78a5e112-6cef-415c-82f6-3d64f1cc4ed9)
+## System Requirements 🖥️
 
+- PHP server environment.
+- MySQL database setup.
+- Google API credentials for authentication.
+- Modern web browsers such as Chrome, Firefox, or Edge.
 
+## Setup and Installation 🛠️
 
-![image](https://github.com/huygiatrng/CourseFeedbackWeb/assets/67343196/387ec18d-b509-4af3-a53e-0a22c88801f8)
-
+1. Clone the repository:
+   ```bash
+   git clone [repository-link]
+  ```bash
