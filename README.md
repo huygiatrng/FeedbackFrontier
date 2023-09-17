@@ -6,6 +6,8 @@ CourseFeedbackWeb is an innovative platform designed to bridge users and the dat
 
 ## Features 🌟
 
+![image](https://github.com/huygiatrng/CourseFeedbackWeb/assets/67343196/8d187852-cb40-4d04-8fd8-bbae51df19a2) 
+
 1. **Users**:
     - Caters to general users (students, instructors) and administrators.
     - Allows affiliations with individual schools.
@@ -65,7 +67,7 @@ CourseFeedbackWeb is an innovative platform designed to bridge users and the dat
     - Create a MySQL database named [coursefeedback].
     - Import the provided .sql file to set up the tables.
 
-![image](https://github.com/huygiatrng/CourseFeedbackWeb/assets/67343196/387ec18d-b509-4af3-a53e-0a22c88801f8)
+![image](https://github.com/huygiatrng/CourseFeedbackWeb/assets/67343196/a2f12b7a-de58-4091-9f75-01cb5b018d04)
     
 4. Configure the Google API:
     - Visit [Google Developer Console](https://console.cloud.google.com/apis/dashboard) and set up an OAuth 2.0 credential.
