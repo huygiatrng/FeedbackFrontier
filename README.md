@@ -2,6 +2,8 @@
 
 CourseFeedbackWeb is an innovative platform designed to bridge users and the database, focusing primarily on streamlining the process of accessing and providing course feedback. Developed using PHP, HTML/CSS, JavaScript (with AJAX), and MySQL, it guarantees a seamless and effective user experience. Bootstrap and Google API further enhance the UI design and user authentication respectively.
 
+![image](https://github.com/huygiatrng/CourseFeedbackWeb/assets/67343196/78a5e112-6cef-415c-82f6-3d64f1cc4ed9)
+
 ## Features 🌟
 
 1. **Users**:
@@ -62,6 +64,9 @@ CourseFeedbackWeb is an innovative platform designed to bridge users and the dat
 3. Set up the database:
     - Create a MySQL database named [coursefeedback].
     - Import the provided .sql file to set up the tables.
+
+![image](https://github.com/huygiatrng/CourseFeedbackWeb/assets/67343196/387ec18d-b509-4af3-a53e-0a22c88801f8)
+    
 4. Configure the Google API:
     - Visit [Google Developer Console](https://console.cloud.google.com/apis/dashboard) and set up an OAuth 2.0 credential.
     - Update the project's authentication configuration with the acquired credentials.
