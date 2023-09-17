@@ -55,5 +55,28 @@ CourseFeedbackWeb is an innovative platform designed to bridge users and the dat
 
 1. Clone the repository:
    ```bash
-   git clone [repository-link]
-  ```bash
+   git clone github.com/huygiatrng/CourseFeedbackWeb
+2. Navigate to the project folder:
+   ```bash
+   cd CourseFeedbackWeb
+3. Set up the database:
+    - Create a MySQL database named [coursefeedback].
+    - Import the provided .sql file to set up the tables.
+4. Configure the Google API:
+    - Visit [Google Developer Console](https://console.cloud.google.com/apis/dashboard) and set up an OAuth 2.0 credential.
+    - Update the project's authentication configuration with the acquired credentials.
+5. Start the server and access the platform on your preferred browser.
+
+## Contribute 🤝
+
+Contributions, issues, and feature requests are welcome! 
+
+## License 📄
+
+This project is licensed under MIT - see the LICENSE.md file for details.
+
+## Acknowledgments 🙏
+
+ - [Bootstrap](https://getbootstrap.com/)
+ - [Google API](https://developers.google.com/)
+
