@@ -15,8 +15,13 @@ if(isset($_SESSION['user_id'])){
 
 require 'google-api/vendor/autoload.php';
 $client = new Google_Client();
-$client->setClientId('936831618789-hjqg7dnc46m4bq8tihek07nn9nt6ttfk.apps.googleusercontent.com');
-$client->setClientSecret('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');
+
+// Enter your Client ID
+// $client->setClientId('<your Client ID>');
+
+// Enter your Client Secrect
+//$client->setClientSecret('<your Client Secrect>');
+
 $client->setRedirectUri('http://localhost/course/public/authentication/GoogleLogin.php');
 $client->addScope("email");
 $client->addScope("profile");
