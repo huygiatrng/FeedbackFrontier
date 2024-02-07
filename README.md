@@ -2,7 +2,7 @@
 
 FeedbackFrontier is an innovative platform designed to bridge users and the database, focusing primarily on streamlining the process of accessing and providing course feedback. Developed using PHP, HTML/CSS, JavaScript (with AJAX), and MySQL, it guarantees a seamless and effective user experience. Bootstrap and Google API further enhance the UI design and user authentication respectively.
 
-![image](https://github.com/huygiatrng/CourseFeedbackWeb/assets/67343196/78a5e112-6cef-415c-82f6-3d64f1cc4ed9)
+![image](https://github.com/huygiatrng/FeedbackFrontier/assets/67343196/1801dccf-9518-490a-84e0-23811452dca2)
 
 ## Features 🌟
 
