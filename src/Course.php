@@ -120,10 +120,8 @@ class Course
     }
 
     public function getFeedbackCount() {
-        $query = "SELECT COUNT(feedback_id) as feedback_count FROM feedback WHERE course_id = '".$this->course_id."'";
-        $result = $this->conn->query($query);
-        $row = $result->fetch_assoc();
-        return $row['feedback_count'];
+        // Return a static string for testing purposes
+        return "Feedback Count";
     }
 
     public static function addCourse($course_subject, $course_number, $CRN, $school_id, $instructor_name, $season, $year)

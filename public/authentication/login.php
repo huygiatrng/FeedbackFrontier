@@ -17,10 +17,10 @@ require 'google-api/vendor/autoload.php';
 $client = new Google_Client();
 
 // Enter your Client ID
-// $client->setClientId('<your Client ID>');
+$client->setClientId('/*YOUR_GOOGLE_CLIENT_ID*/');
 
 // Enter your Client Secrect
-//$client->setClientSecret('<your Client Secrect>');
+$client->setClientSecret('/*YOUR_GOOGLE_CLIENT_SECRET*/');
 
 $client->setRedirectUri('http://localhost/course/public/authentication/GoogleLogin.php');
 $client->addScope("email");

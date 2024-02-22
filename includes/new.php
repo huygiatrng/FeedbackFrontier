@@ -1,4 +1,4 @@
-<?php $projectName = "" ?>
+<?php $projectName = "course/" ?>
 <!DOCTYPE html>
 <html lang="en">
 

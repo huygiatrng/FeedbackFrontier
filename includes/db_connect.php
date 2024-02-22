@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
-$username = "swegroup1";
-$password = "courseproject";
+$username = "root";
+$password = "";
 $dbname = "coursefeedbackdb";
 
 // Create connection

@@ -1,4 +1,4 @@
-<?php $projectName = "" ?>
+<?php $projectName = "course/" ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -67,7 +67,7 @@ if (isset($_SESSION['role'])) {
 
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="/<?php echo $projectName ?>assets/img/826.gif" alt="logo" height="60" width="60">
+            <img class="animation__shake" src="/<?php echo $projectName ?>/assets/img/826.gif" alt="logo" height="60" width="60">
         </div>
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">

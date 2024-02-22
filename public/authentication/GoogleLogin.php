@@ -18,10 +18,10 @@ error_reporting(E_ALL);
 $client = new Google_Client();
 
 // Enter your Client ID
-// $client->setClientId('<your Client ID>');
+$client->setClientId('/*YOUR_GOOGLE_CLIENT_ID*/');
 
 // Enter your Client Secrect
-//$client->setClientSecret('<your Client Secrect>');
+$client->setClientSecret('/*YOUR_GOOGLE_CLIENT_SECRET*/');
 
 // Enter the Redirect URL
 $client->setRedirectUri('http://localhost/course/public/authentication/GoogleLogin.php');

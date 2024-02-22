@@ -1,5 +1,7 @@
 <?php
 include '../../includes/db_connect.php';
+require_once '../../src/Course.php';
+
 $title = 'Student Dashboard';
 $pageHeading = 'Dashboard';
 ob_start();
@@ -22,18 +24,18 @@ if (isset($_SESSION['user_id'])) {
 $role = $_SESSION['role'];
 
 try {
-    // Get user's first_name and last_name from Users where role is 'user'
+    // Assume the connection to the database is correctly established in $conn
+
+    // Get user's first_name, last_name, and school_id
     $stmt = $conn->prepare('SELECT first_name, last_name, school_id FROM Users WHERE user_id = ? AND role = ?');
-    $role = 'user';
+    $role = 'user'; // Assuming role is predefined or obtained from session/another source
     $stmt->bind_param("is", $user_id, $role);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    // Check if the query returned any rows
     if ($result->num_rows > 0) {
         $student = $result->fetch_assoc();
-
-        if ($student['school_id'] != null) {   // Replace $row with $student
+        if ($student['school_id'] != null) {
             $school_id = $student['school_id'];
         } else {
             header("Location:add_school.php");
@@ -45,9 +47,18 @@ try {
         exit();
     }
 
-
-    // Get courses of the user's school
-    $stmt = $conn->prepare('SELECT course_id, course_subject, course_number, instructor_name FROM Courses WHERE school_id = ?');
+    // Modify the query to fetch courses and their feedback counts together
+    $stmt = $conn->prepare('
+        SELECT 
+            c.course_id, 
+            c.course_subject, 
+            c.course_number, 
+            c.instructor_name, 
+            (SELECT COUNT(*) FROM Feedback f WHERE f.course_id = c.course_id) AS feedback_count
+        FROM Courses c
+        WHERE c.school_id = ?
+        LIMIT 20
+    ');
     $stmt->bind_param("i", $school_id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -58,7 +69,6 @@ try {
 } catch (Exception $e) {
     die('Cannot retrieve data: ' . $e->getMessage());
 }
-
 
 ?>
 
@@ -142,33 +152,45 @@ try {
     </div>
 
     <script>
+        var ongoingXhr = null; // Keep track of the ongoing AJAX request
+
         document.addEventListener('DOMContentLoaded', (event) => {
             searchCourses(); // Fetch courses when the page loads
         });
 
         function searchCourses() {
+            // Check if there is an ongoing request and abort it
+            if (ongoingXhr !== null) {
+                ongoingXhr.abort();
+            }
+
             var xhttp = new XMLHttpRequest();
+            ongoingXhr = xhttp; // Update the ongoingXhr with the new request
+
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     let data = JSON.parse(this.responseText);
                     let html = "";
                     Array.from(data).forEach(function(element) {
-                        console.log(element);
                         html += `<tr>
-                    <td>${element.season}</td>
-                    <td>${element.year}</td>
-                    <td>${element.CRN}</td>
-                    <td>${element.course_subject} ${element.course_number}</td>
-                    <td>${element.instructor_name}</td>
-                    <td>${element.instructor_name}</td>
-                    <td class="text-center">
-                            <a class="btn btn-success m-1" href="../course/course_feedback.php?course_id=${element.course_id}">Provide Feedback</a>
-                            <a class="btn btn-success m-1" href="../course/view_feedback.php?course_id=${element.course_id}">View Feedback</a>
-                    </tr>`;
+                         <td>${element.season}</td>
+                         <td>${element.year}</td>
+                         <td>${element.CRN}</td>
+                         <td>${element.course_subject} ${element.course_number}</td>
+                         <td>${element.instructor_name}</td>
+                         <td>${element.feedback_count}</td>
+                         <td class="text-center">
+                             <a class="btn btn-success m-1" href="../course/course_feedback.php?course_id=${element.course_id}">Provide Feedback</a>
+                             <a class="btn btn-success m-1" href="../course/view_feedback.php?course_id=${element.course_id}">View Feedback</a>
+                         </td>
+                     </tr>`;
                     });
-                    (html == "") ? html = "<tr><td colspan='5'>No course found.</td></tr>": html = html;
+                    // Fallback for no data
+                    html = html || "<tr><td colspan='7' class='text-center'>No course found.</td></tr>";
                     document.getElementById("searchResults").innerHTML = html;
-
+                } else if (this.readyState == 4 && this.status == 0) {
+                    // Request was aborted, possibly due to a new filter being applied
+                    console.log('Request aborted. Possibly due to a new search being initiated.');
                 }
             };
             xhttp.open("GET", "../course/search_courses.php?CRN=" + document.getElementById("crnBox").value + "&course_subject=" + document.getElementById("courseSubBox").value + "&course_number=" + document.getElementById("courseNumBox").value + "&instructor=" + document.getElementById("instructorBox").value + "&semester=" + document.getElementById("semesterBox").value + "&year=" + document.getElementById("yearBox").value + "&user_id=" + <?php echo $user_id; ?> + "&role=" + "<?php echo $role; ?>", true);
